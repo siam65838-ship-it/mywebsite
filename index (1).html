@@ -1,0 +1,472 @@
+<!-- =============================================== -->
+<!-- সম্পূর্ণ ওয়েবসাইট কোড - A-Code তে পেস্ট করুন -->
+<!-- =============================================== -->
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গল্পের ঝুড়ি - আপনার গল্প শেয়ার করুন</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+        .navbar { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #667eea; text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 500; padding: 8px 15px; border-radius: 5px; transition: all 0.3s; }
+        .nav-links a:hover { background: #667eea; color: white; }
+        .menu-btn { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center; color: white; text-align: center; padding: 100px 20px; margin-top: 10px; }
+        .hero-content h1 { font-size: 32px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero-content p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: #667eea; color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; border: none; cursor: pointer; transition: all 0.3s; display: inline-block; }
+        .btn-primary:hover { background: #5a67d8; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .btn-secondary { background: transparent; color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; border: 2px solid white; cursor: pointer; transition: all 0.3s; display: inline-block; }
+        .btn-secondary:hover { background: white; color: #667eea; }
+        .section { max-width: 1200px; margin: 30px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .section h2 { color: #667eea; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .categories { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .category-btn { padding: 8px 15px; border: 2px solid #667eea; background: white; color: #667eea; border-radius: 25px; cursor: pointer; transition: all 0.3s; font-weight: 500; }
+        .category-btn:hover { background: #667eea; color: white; }
+        .stories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .story-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s; border: 1px solid #eee; cursor: pointer; }
+        .story-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .story-img { width: 100%; height: 150px; background: linear-gradient(45deg, #667eea, #764ba2); }
+        .story-content { padding: 15px; }
+        .story-title { font-size: 18px; margin-bottom: 10px; color: #333; }
+        .story-excerpt { color: #666; margin-bottom: 10px; line-height: 1.5; }
+        .story-meta { display: flex; justify-content: space-between; color: #888; font-size: 13px; }
+        footer { background: #333; color: white; margin-top: 40px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; padding: 30px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+        .footer-section h3 { color: #667eea; margin-bottom: 15px; }
+        .footer-section a { display: block; color: #ddd; text-decoration: none; margin-bottom: 8px; transition: color 0.3s; }
+        .footer-section a:hover { color: #667eea; }
+        .footer-bottom { text-align: center; padding: 15px; background: #222; color: #aaa; }
+        .form-container { max-width: 500px; margin: 30px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
+        .form-control { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .form-control:focus { outline: none; border-color: #667eea; }
+        textarea.form-control { min-height: 120px; resize: vertical; }
+        .btn-load-more { display: block; margin: 20px auto; padding: 10px 25px; background: #667eea; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; }
+        @media (max-width: 768px) { .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: white; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); } .nav-links.active { display: flex; } .menu-btn { display: block; } .hero-content h1 { font-size: 24px; } .hero-content p { font-size: 16px; } .stories-grid { grid-template-columns: 1fr; } .form-container { margin: 15px; padding: 15px; } }
+        .payment-box { background: #f8f9fa; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 5px solid #667eea; }
+        .payment-info { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px dashed #667eea; }
+        .warning { background: #fff3cd; color: #856404; padding: 12px; border-radius: 5px; margin: 12px 0; border: 1px solid #ffeaa7; }
+        .success { background: #d4edda; color: #155724; padding: 12px; border-radius: 5px; margin: 12px 0; border: 1px solid #c3e6cb; }
+        .tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0; }
+        .tag { background: #e0e7ff; color: #667eea; padding: 4px 8px; border-radius: 15px; font-size: 12px; font-weight: 500; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-box { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); border-top: 4px solid #667eea; }
+        .stat-number { font-size: 28px; font-weight: bold; color: #667eea; display: block; }
+        .stat-label { color: #666; font-size: 13px; }
+        .comment { background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 8px; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- নেভিগেশন -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">📖 গল্পের ঝুড়ি</a>
+            <div class="nav-links" id="navLinks">
+                <a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> হোম</a>
+                <a href="#" onclick="showPage('write')"><i class="fas fa-pen"></i> গল্প লিখুন</a>
+                <a href="#" onclick="checkUser('profile')"><i class="fas fa-user"></i> প্রোফাইল</a>
+                <a href="#" onclick="showPage('payment')"><i class="fas fa-credit-card"></i> পেমেন্ট</a>
+                <span id="authLinks"></span>
+            </div>
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- হোম পেজ -->
+    <div id="home-page" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>আপনার জীবন গল্প শেয়ার করুন</h1>
+                <p>১০,০০০ অক্ষরে বলুন আপনার গল্প, অডিওতে বলুন ১৫ মিনিটে</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary" onclick="checkUser('write')">গল্প লিখুন</a>
+                    <a href="#trending" class="btn-secondary" onclick="scrollToSection('trending')">গল্প পড়ুন</a>
+                </div>
+            </div>
+        </section>
+        <section id="trending" class="section">
+            <h2><i class="fas fa-fire"></i> ট্রেন্ডিং গল্প</h2>
+            <div class="stories-grid" id="trendingStories"></div>
+        </section>
+        <section class="section">
+            <h2><i class="fas fa-tags"></i> ক্যাটাগরি</h2>
+            <div class="categories">
+                <button class="category-btn" onclick="filterStories('প্রেম')">❤️ প্রেম</button>
+                <button class="category-btn" onclick="filterStories('রোমাঞ্চ')">🏔️ রোমাঞ্চ</button>
+                <button class="category-btn" onclick="filterStories('জীবন')">🌱 জীবন</button>
+                <button class="category-btn" onclick="filterStories('কমেডি')">😂 কমেডি</button>
+            </div>
+        </section>
+        <section class="section">
+            <h2><i class="fas fa-book-open"></i> সর্বশেষ গল্প</h2>
+            <div class="stories-list" id="allStories"></div>
+            <button class="btn-load-more" onclick="loadMoreStories()">আরো গল্প লোড করুন</button>
+        </section>
+    </div>
+
+    <!-- লগইন পেজ -->
+    <div id="login-page" class="page">
+        <div class="form-container">
+            <h2><i class="fas fa-sign-in-alt"></i> লগইন করুন</h2>
+            <div class="form-group"><label>ইমেইল</label><input type="email" id="loginEmail" class="form-control" placeholder="ইমেইল"></div>
+            <div class="form-group"><label>পাসওয়ার্ড</label><input type="password" id="loginPassword" class="form-control" placeholder="পাসওয়ার্ড"></div>
+            <button class="btn-primary" onclick="login()" style="width: 100%; padding: 12px;"><i class="fas fa-sign-in-alt"></i> লগইন</button>
+            <div style="text-align: center; margin-top: 20px;"><p>অ্যাকাউন্ট নেই? <a href="#" onclick="showPage('register')">রেজিস্টার করুন</a></p><p><a href="#" onclick="showPage('home')">← হোম পেজে যান</a></p></div>
+        </div>
+    </div>
+
+    <!-- রেজিস্টার পেজ -->
+    <div id="register-page" class="page">
+        <div class="form-container">
+            <h2><i class="fas fa-user-plus"></i> রেজিস্টার করুন</h2>
+            <div class="form-group"><label>নাম</label><input type="text" id="regName" class="form-control" placeholder="পূর্ণ নাম"></div>
+            <div class="form-group"><label>ইমেইল</label><input type="email" id="regEmail" class="form-control" placeholder="ইমেইল"></div>
+            <div class="form-group"><label>পাসওয়ার্ড</label><input type="password" id="regPassword" class="form-control" placeholder="পাসওয়ার্ড"></div>
+            <div class="form-group"><label>পাসওয়ার্ড নিশ্চিত</label><input type="password" id="regConfirmPass" class="form-control" placeholder="পাসওয়ার্ড আবার"></div>
+            <button class="btn-primary" onclick="register()" style="width: 100%; padding: 12px;"><i class="fas fa-user-plus"></i> রেজিস্টার</button>
+            <div style="text-align: center; margin-top: 20px;"><p>ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="#" onclick="showPage('login')">লগইন করুন</a></p><p><a href="#" onclick="showPage('home')">← হোম পেজে যান</a></p></div>
+        </div>
+    </div>
+
+    <!-- গল্প লেখা পেজ -->
+    <div id="write-page" class="page">
+        <div class="form-container">
+            <h2><i class="fas fa-pen"></i> গল্প লিখুন</h2>
+            <div class="warning"><i class="fas fa-info-circle"></i> ফ্রী: ১০,০০০ অক্ষর। প্রিমিয়াম: আনলিমিটেড</div>
+            <div class="form-group"><label>গল্পের শিরোনাম *</label><input type="text" id="storyTitle" class="form-control" placeholder="শিরোনাম"></div>
+            <div class="form-group"><label>ক্যাটাগরি *</label><select id="storyCategory" class="form-control"><option value="">সিলেক্ট</option><option value="প্রেম">❤️ প্রেম</option><option value="রোমাঞ্চ">🏔️ রোমাঞ্চ</option><option value="জীবন">🌱 জীবন</option><option value="কমেডি">😂 কমেডি</option></select></div>
+            <div class="form-group"><label>গল্পের বিবরণ *</label><textarea id="storyContent" class="form-control" placeholder="আপনার গল্প..." rows="8" oninput="updateCharCount()"></textarea><div style="text-align: right; margin-top: 5px;"><span id="charCount">0</span> / 10,000 অক্ষর</div></div>
+            <div class="form-group"><label>ট্যাগস (# দিয়ে)</label><input type="text" id="storyTags" class="form-control" placeholder="#প্রেম #জীবন"></div>
+            <button class="btn-primary" onclick="publishStory()" style="width: 100%; padding: 12px;"><i class="fas fa-paper-plane"></i> গল্প প্রকাশ করুন</button>
+            <div style="text-align: center; margin-top: 20px;"><p>প্রিমিয়াম না হলে? <a href="#" onclick="showPage('payment')">আপগ্রেড করুন</a></p><p><a href="#" onclick="showPage('home')">← হোম পেজে যান</a></p></div>
+        </div>
+    </div>
+
+    <!-- গল্প পড়া পেজ -->
+    <div id="read-page" class="page">
+        <div class="section" id="storyContainer"></div>
+    </div>
+
+    <!-- প্রোফাইল পেজ -->
+    <div id="profile-page" class="page">
+        <div class="section" style="max-width: 1000px; margin: 20px auto;">
+            <div id="profileContent"></div>
+        </div>
+    </div>
+
+    <!-- পেমেন্ট পেজ -->
+    <div id="payment-page" class="page">
+        <div class="section" style="max-width: 800px; margin: 20px auto;">
+            <h2><i class="fas fa-credit-card"></i> প্রিমিয়াম আপগ্রেড</h2>
+            <div class="warning"><i class="fas fa-shield-alt"></i> নিরাপদ পেমেন্ট: নগদে সরাসরি</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                <div class="payment-box"><h3 style="color: #667eea;"><i class="fas fa-infinity"></i> টেক্সট আনলিমিটেড</h3><h3 style="color: #28a745;">$5</h3><ul style="margin: 10px 0; padding-left: 20px; font-size: 14px;"><li>অসীম গল্প লেখা</li><li>১০,০০০+ অক্ষর</li><li>প্রিমিয়াম ব্যাজ</li></ul><button class="btn-primary" onclick="requestPayment('text')" style="width: 100%;"><i class="fas fa-shopping-cart"></i> কিনুন</button></div>
+                <div class="payment-box"><h3 style="color: #667eea;"><i class="fas fa-microphone-alt"></i> ভয়েজ ১ ঘন্টা</h3><h3 style="color: #28a745;">$5</h3><ul style="margin: 10px 0; padding-left: 20px; font-size: 14px;"><li>১ ঘণ্টা ভয়েজ</li><li>১৫+ মিনিট গল্প</li><li>অডিও ডাউনলোড</li></ul><button class="btn-primary" onclick="requestPayment('audio')" style="width: 100%;"><i class="fas fa-shopping-cart"></i> কিনুন</button></div>
+            </div>
+            <div id="paymentRequest" style="display: none;"><div class="payment-info"><h3><i class="fas fa-qrcode"></i> পেমেন্ট নির্দেশনা</h3><div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;"><h4>পেমেন্ট স্টেপস:</h4><ol style="margin: 10px 0 10px 20px;"><li><strong>ট্রানজেকশন ID:</strong> <span id="transactionId" style="color: #667eea; font-weight: bold;">-</span></li><li><strong>প্যাকেজ:</strong> <span id="paymentPackage">-</span></li><li><strong>টাকা পাঠান:</strong> <span id="paymentAmount" style="color: green;">-</span></li><li><strong>নগদ নম্বর:</strong> <span id="paymentNumber" style="color: #dc3545; font-weight: bold;">01328976408</span></li><li>পেমেন্টের পর <strong>টিআইন নম্বর</strong> নিচে দিন</li></ol><div class="warning"><i class="fas fa-exclamation-triangle"></i><strong>গুরুত্বপূর্ণ:</strong> ট্রানজেকশন ID মেমোতে লিখুন</div></div><div class="form-group"><label>টিআইন নম্বর *</label><input type="text" id="tinNumber" class="form-control" placeholder="টিআইন নম্বর"></div><button class="btn-primary" onclick="verifyPayment()" style="width: 100%;"><i class="fas fa-check-circle"></i> পেমেন্ট ভেরিফাই করুন</button><div id="paymentStatus" style="margin-top: 15px;"></div></div></div>
+            <div style="text-align: center; margin-top: 20px;"><a href="#" class="btn-secondary" onclick="showPage('home')"><i class="fas fa-home"></i> হোম পেজে ফিরে যান</a></div>
+        </div>
+    </div>
+
+    <!-- এডমিন পেজ -->
+    <div id="admin-page" class="page">
+        <div class="section" style="max-width: 1200px; margin: 20px auto;">
+            <div id="adminDashboard"></div>
+        </div>
+    </div>
+
+    <!-- ফুটার -->
+    <footer id="main-footer">
+        <div class="footer-content">
+            <div class="footer-section"><h3>গল্পের ঝুড়ি</h3><p>সবার জন্য গল্প শেয়ারিং</p></div>
+            <div class="footer-section"><h3>লিংক</h3><a href="#" onclick="showPage('home')">হোম</a><a href="#" onclick="checkUser('write')">গল্প লিখুন</a><a href="#" onclick="showPage('payment')">পেমেন্ট</a></div>
+            <div class="footer-section"><h3>কন্ট্যাক্ট</h3><p>সাপোর্ট: support@golperjhuri.com</p><p>পেমেন্ট: payment@golperjhuri.com</p></div>
+        </div>
+        <div class="footer-bottom"><p>© 2024 গল্পের ঝুড়ি | সকল অধিকার সংরক্ষিত</p></div>
+    </footer>
+
+    <script>
+        // মোবাইল মেনু
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        
+        // পেজ শো
+        function showPage(pageName) { 
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageName + '-page').classList.add('active');
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo(0, 0);
+            if (pageName === 'home') { loadStories(); updateAuthLinks(); }
+            if (pageName === 'profile') { loadProfile(); }
+            if (pageName === 'admin') { loadAdminDashboard(); }
+        }
+        
+        // ইউজার চেক
+        function checkUser(pageName) { 
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user && (pageName === 'write' || pageName === 'profile' || pageName === 'payment')) {
+                showPage('login');
+            } else { showPage(pageName); }
+        }
+        
+        // লোকাল স্টোরেজ ফাংশন
+        function getStories() { return JSON.parse(localStorage.getItem('stories')) || []; }
+        function saveStories(stories) { localStorage.setItem('stories', JSON.stringify(stories)); }
+        function getUsers() { return JSON.parse(localStorage.getItem('users')) || []; }
+        function saveUsers(users) { localStorage.setItem('users', JSON.stringify(users)); }
+        function getCurrentUser() { return JSON.parse(localStorage.getItem('currentUser')); }
+        function setCurrentUser(user) { localStorage.setItem('currentUser', JSON.stringify(user)); }
+        
+        // ডেমো ডেটা
+        function loadDemoData() {
+            if (getStories().length === 0) {
+                saveStories([
+                    {id:1,title:"প্রথম প্রেমের গল্প",content:"সেই শীতের সকালে প্রথম দেখা...",excerpt:"একটি অবিস্মরণীয় প্রেমের গল্প",author:"রহিম",category:"প্রেম",tags:["প্রেম","জীবন"],likes:45,comments:12,views:120,date:"২০২৩-১২-১৫",isAudio:false,isPremium:false},
+                    {id:2,title:"পাহাড়ে রোমাঞ্চ",content:"বন্ধুদের সাথে প্রথম পাহাড় চূড়ায় উঠার অভিজ্ঞতা...",excerpt:"রোমাঞ্চকর অভিযানের গল্প",author:"করিম",category:"রোমাঞ্চ",tags:["রোমাঞ্চ","অ্যাডভেঞ্চার"],likes:78,comments:23,views:210,date:"২০২৩-১২-১০",isAudio:true,isPremium:true},
+                    {id:3,title:"জীবনের শিক্ষা",content:"স্কুল জীবন থেকে শেখা গুরুত্বপূর্ণ পাঠ...",excerpt:"জীবন থেকে পাওয়া মূল্যবান শিক্ষা",author:"সাজিদ",category:"জীবন",tags:["জীবন","শিক্ষা"],likes:32,comments:8,views:95,date:"২০২৩-১২-০৫",isAudio:false,isPremium:false}
+                ]);
+            }
+            if (getUsers().length === 0) {
+                saveUsers([
+                    {id:1,name:"রহিম",email:"rahim@test.com",password:"123456",isPremium:false,audioTimeLeft:0},
+                    {id:2,name:"করিম",email:"karim@test.com",password:"123456",isPremium:true,audioTimeLeft:3600},
+                    {id:3,name:"এডমিন",email:"admin@test.com",password:"admin123",isPremium:true,audioTimeLeft:5000,isAdmin:true}
+                ]);
+            }
+        }
+        
+        // গল্প লোড
+        function loadStories() {
+            const stories = getStories();
+            const container = document.getElementById('allStories');
+            if (container) { 
+                container.innerHTML = '';
+                stories.forEach(story => {
+                    const card = document.createElement('div');
+                    card.className = 'story-card';
+                    card.onclick = () => viewStory(story.id);
+                    card.innerHTML = `<div class="story-img"></div><div class="story-content"><h3 class="story-title">${story.title}</h3><p class="story-excerpt">${story.excerpt}</p><div class="tags"><span class="tag">${story.category}</span>${story.isPremium?'<span class="tag">⭐ প্রিমিয়াম</span>':''}</div><div class="story-meta"><span><i class="fas fa-user"></i> ${story.author}</span><span><i class="fas fa-heart"></i> ${story.likes}</span></div></div>`;
+                    container.appendChild(card);
+                });
+            }
+            const trendingContainer = document.getElementById('trendingStories');
+            if (trendingContainer) {
+                trendingContainer.innerHTML = '';
+                const trending = [...stories].sort((a,b)=>b.likes-a.likes).slice(0,2);
+                trending.forEach(story => {
+                    const card = document.createElement('div');
+                    card.className = 'story-card';
+                    card.onclick = () => viewStory(story.id);
+                    card.innerHTML = `<div class="story-img"></div><div class="story-content"><h3 class="story-title">${story.title}</h3><p class="story-excerpt">${story.excerpt}</p><div class="tags"><span class="tag">${story.category}</span>${story.isPremium?'<span class="tag">⭐ প্রিমিয়াম</span>':''}</div><div class="story-meta"><span><i class="fas fa-user"></i> ${story.author}</span><span><i class="fas fa-heart"></i> ${story.likes}</span></div></div>`;
+                    trendingContainer.appendChild(card);
+                });
+            }
+        }
+        
+        // গল্প দেখুন
+        function viewStory(id) {
+            const stories = getStories();
+            const story = stories.find(s => s.id === id);
+            if (story) {
+                const container = document.getElementById('storyContainer');
+                container.innerHTML = `<div style="max-width: 800px; margin: 0 auto;"><h1 style="color: #667eea; margin-bottom: 10px;">${story.title}</h1><div style="display: flex; justify-content: space-between; color: #666; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee;"><div><i class="fas fa-user"></i> ${story.author} | <i class="fas fa-calendar"></i> ${story.date} | <i class="fas fa-eye"></i> ${story.views+1}</div><div><span class="tag">${story.category}</span></div></div><div style="font-size: 16px; line-height: 1.6; margin-bottom: 30px; padding: 15px; background: #f9f9f9; border-radius: 10px; white-space: pre-line;">${story.content}</div><div class="tags" style="margin-bottom: 15px;">${story.tags.map(tag=>`<span class="tag">#${tag}</span>`).join('')}</div><div style="display: flex; gap: 10px; margin-bottom: 20px;"><button class="btn-primary" onclick="likeStory(${story.id})"><i class="fas fa-heart"></i> লাইক (${story.likes})</button><button class="btn-secondary" onclick="shareStory(${story.id})"><i class="fas fa-share"></i> শেয়ার</button></div><div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);"><h3><i class="fas fa-comments"></i> কমেন্টস (${story.comments})</h3><div class="form-group" style="margin: 15px 0;"><textarea id="commentText" class="form-control" placeholder="কমেন্ট..." rows="2"></textarea></div><button class="btn-primary" onclick="postComment(${story.id})"><i class="fas fa-paper-plane"></i> কমেন্ট পোস্ট</button><div id="commentsSection" style="margin-top: 15px;"><p style="text-align: center; color: #888;">কমেন্ট করা হয়নি</p></div></div><div style="text-align: center; margin-top: 30px;"><a href="#" class="btn-primary" onclick="showPage('write')"><i class="fas fa-pen"></i> আপনি ও গল্প লিখুন</a><a href="#" class="btn-secondary" style="margin-left: 10px;" onclick="showPage('home')"><i class="fas fa-home"></i> হোম</a></div></div>`;
+                story.views++; stories[stories.findIndex(s=>s.id===id)] = story; saveStories(stories);
+                showPage('read');
+            }
+        }
+        
+        // লাইক
+        function likeStory(id) {
+            const user = getCurrentUser();
+            if (!user) { alert('লাইক দিতে লগইন করুন!'); showPage('login'); return; }
+            const stories = getStories();
+            const storyIndex = stories.findIndex(s => s.id === id);
+            if (storyIndex !== -1) { stories[storyIndex].likes++; saveStories(stories); alert('লাইক দেওয়া হয়েছে!'); viewStory(id); }
+        }
+        
+        // শেয়ার
+        function shareStory(id) {
+            navigator.clipboard.writeText(window.location.href.split('#')[0] + `#read-${id}`).then(() => { alert('লিংক কপি হয়েছে!'); });
+        }
+        
+        // কমেন্ট
+        function postComment(storyId) {
+            const user = getCurrentUser();
+            if (!user) { alert('কমেন্ট করতে লগইন করুন!'); showPage('login'); return; }
+            const commentText = document.getElementById('commentText').value;
+            if (!commentText.trim()) { alert('কমেন্ট লিখুন!'); return; }
+            const stories = getStories();
+            const storyIndex = stories.findIndex(s => s.id === storyId);
+            if (storyIndex !== -1) { stories[storyIndex].comments++; saveStories(stories); const commentSection = document.getElementById('commentsSection'); const commentDiv = document.createElement('div'); commentDiv.className = 'comment'; commentDiv.innerHTML = `<strong>${user.name}</strong> <small>(${new Date().toLocaleDateString('bn-BD')})</small><p>${commentText}</p>`; commentSection.insertBefore(commentDiv, commentSection.firstChild); document.getElementById('commentText').value = ''; }
+        }
+        
+        // ফিল্টার
+        function filterStories(category) {
+            const stories = getStories().filter(story => story.category === category);
+            const container = document.getElementById('allStories');
+            if (container) {
+                container.innerHTML = '';
+                stories.forEach(story => {
+                    const card = document.createElement('div');
+                    card.className = 'story-card';
+                    card.onclick = () => viewStory(story.id);
+                    card.innerHTML = `<div class="story-img"></div><div class="story-content"><h3 class="story-title">${story.title}</h3><p class="story-excerpt">${story.excerpt}</p><div class="tags"><span class="tag">${story.category}</span></div><div class="story-meta"><span><i class="fas fa-user"></i> ${story.author}</span><span><i class="fas fa-heart"></i> ${story.likes}</span></div></div>`;
+                    container.appendChild(card);
+                });
+            }
+        }
+        
+        // লগইন
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) { setCurrentUser(user); updateAuthLinks(); alert('লগইন সফল!'); showPage('home'); } else { alert('ইমেইল/পাসওয়ার্ড ভুল!'); }
+        }
+        
+        // রেজিস্টার
+        function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPass = document.getElementById('regConfirmPass').value;
+            if (!name || !email || !password) { alert('সব ফিল্ড পূরণ করুন!'); return; }
+            if (password !== confirmPass) { alert('পাসওয়ার্ড মিলছে না!'); return; }
+            const users = getUsers();
+            if (users.find(u => u.email === email)) { alert('এই ইমেইল ইতিমধ্যে রেজিস্টার্ড!'); return; }
+            const newUser = {id: users.length+1, name: name, email: email, password: password, isPremium: false, audioTimeLeft: 0};
+            users.push(newUser); saveUsers(users); setCurrentUser(newUser); alert('রেজিস্ট্রেশন সফল!'); updateAuthLinks(); showPage('home');
+        }
+        
+        // লগআউট
+        function logout() { setCurrentUser(null); updateAuthLinks(); showPage('home'); }
+        
+        // অথ লিংক
+        function updateAuthLinks() {
+            const authLinks = document.getElementById('authLinks');
+            const user = getCurrentUser();
+            if (user) {
+                authLinks.innerHTML = `<a href="#" onclick="showPage('profile')"><i class="fas fa-user"></i> ${user.name}</a><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</a>${user.email==='admin@test.com'?`<a href="#" onclick="showPage('admin')"><i class="fas fa-crown"></i> এডমিন</a>`:''}`;
+            } else {
+                authLinks.innerHTML = `<a href="#" onclick="showPage('login')"><i class="fas fa-sign-in-alt"></i> লগইন</a><a href="#" onclick="showPage('register')"><i class="fas fa-user-plus"></i> রেজিস্টার</a>`;
+            }
+        }
+        
+        // গল্প পাবলিশ
+        function publishStory() {
+            const user = getCurrentUser();
+            if (!user) { alert('গল্প প্রকাশ করতে লগইন করুন!'); showPage('login'); return; }
+            const title = document.getElementById('storyTitle').value;
+            const content = document.getElementById('storyContent').value;
+            const category = document.getElementById('storyCategory').value;
+            const tags = document.getElementById('storyTags').value;
+            if (!title || !content || !category) { alert('সব required ফিল্ড পূরণ করুন!'); return; }
+            if (content.length > 10000 && !user.isPremium) { alert('১০,০০০+ অক্ষরের গল্প লিখতে প্রিমিয়াম আপগ্রেড করুন!'); showPage('payment'); return; }
+            const stories = getStories();
+            const newStory = {id: stories.length+1, title: title, content: content, excerpt: content.substring(0,100)+'...', author: user.name, category: category, tags: tags.split(',').map(tag=>tag.trim()).filter(tag=>tag), likes:0, comments:0, views:0, date: new Date().toLocaleDateString('bn-BD'), isAudio: false, isPremium: user.isPremium};
+            stories.push(newStory); saveStories(stories); alert('গল্প সফলভাবে প্রকাশিত হয়েছে!'); showPage('home');
+        }
+        
+        // ক্যারেক্টার কাউন্ট
+        function updateCharCount() {
+            const content = document.getElementById('storyContent').value;
+            const count = content.length;
+            document.getElementById('charCount').textContent = count;
+            const user = getCurrentUser();
+            if (!user || !user.isPremium) { document.getElementById('charCount').style.color = count > 10000 ? 'red' : 'green'; }
+        }
+        
+        // পেমেন্ট
+        function requestPayment(packageType) {
+            const user = getCurrentUser();
+            if (!user) { alert('পেমেন্ট করতে লগইন করুন!'); showPage('login'); return; }
+            const transactionId = 'TXN' + Date.now() + Math.random().toString(36).substr(2,5).toUpperCase();
+            document.getElementById('transactionId').textContent = transactionId;
+            document.getElementById('paymentAmount').textContent = '৫ ডলার ($5)';
+            document.getElementById('paymentPackage').textContent = packageType === 'text' ? 'টেক্সট আনলিমিটেড' : 'ভয়েজ ১ ঘন্টা';
+            document.getElementById('paymentRequest').style.display = 'block';
+        }
+        
+        // পেমেন্ট ভেরিফাই
+        function verifyPayment() {
+            const tin = document.getElementById('tinNumber').value;
+            if (!tin) { alert('টিআইন নম্বর দিন!'); return; }
+            const user = getCurrentUser();
+            if (user) {
+                const users = getUsers();
+                const userIndex = users.findIndex(u => u.id === user.id);
+                if (userIndex !== -1) {
+                    users[userIndex].isPremium = true;
+                    users[userIndex].audioTimeLeft += 3600;
+                    saveUsers(users);
+                    setCurrentUser(users[userIndex]);
+                }
+            }
+            document.getElementById('paymentStatus').innerHTML = `<div class="success"><i class="fas fa-check-circle"></i> পেমেন্ট সাবমিট হয়েছে! অ্যাকাউন্ট আপগ্রেড করা হয়েছে।</div>`;
+            setTimeout(() => { showPage('profile'); }, 2000);
+        }
+        
+        // প্রোফাইল
+        function loadProfile() {
+            const user = getCurrentUser();
+            if (!user) { showPage('login'); return; }
+            const stories = getStories().filter(s => s.author === user.name);
+            const container = document.getElementById('profileContent');
+            container.innerHTML = `<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;"><div><div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); text-align: center;"><div style="width: 80px; height: 80px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white;">${user.name.charAt(0)}</div><h3>${user.name}</h3><p>${user.email}</p><div style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 8px;"><h4><i class="fas fa-crown"></i> অ্যাকাউন্ট স্ট্যাটাস</h4><div style="font-size: 20px; color: ${user.isPremium?'#FFD700':'#666'}; margin: 5px 0;">${user.isPremium?'⭐ প্রিমিয়াম':'🆓 ফ্রী'}</div></div><button class="btn-primary" onclick="showPage('payment')" style="width: 100%; margin-bottom: 10px;">${user.isPremium?'🔄 প্রিমিয়াম রিনিউ':'⭐ প্রিমিয়াম আপগ্রেড'}</button><button class="btn-secondary" onclick="logout()" style="width: 100%;"><i class="fas fa-sign-out-alt"></i> লগআউট</button></div></div><div><div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); margin-bottom: 15px;"><h3><i class="fas fa-book"></i> আমার গল্পসমূহ (${stories.length})</h3>${stories.length>0?`<div style="margin-top: 10px;">${stories.slice(0,5).map(story=>`<div style="padding: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;"><div><a href="#" onclick="viewStory(${story.id})" style="text-decoration: none; color: #333;"><strong>${story.title}</strong></a><div style="font-size: 12px; color: #666;">${story.date} | ❤️ ${story.likes}</div></div><div><span class="tag">${story.category}</span></div></div>`).join('')}</div>`:`<p style="text-align: center; padding: 15px; color: #666;">আপনি এখনো কোনো গল্প লেখেননি<br><a href="#" onclick="showPage('write')" style="color: #667eea;">এখনই লিখুন!</a></p>`}</div></div></div>`;
+        }
+        
+        // এডমিন
+        function loadAdminDashboard() {
+            const user = getCurrentUser();
+            if (!user || user.email !== 'admin@test.com') { showPage('home'); return; }
+            const stories = getStories();
+            const users = getUsers();
+            const container = document.getElementById('adminDashboard');
+            container.innerHTML = `<h1><i class="fas fa-tachometer-alt"></i> এডমিন ড্যাশবোর্ড</h1><div class="admin-stats"><div class="stat-box"><span class="stat-number">${stories.length}</span><span class="stat-label">মোট গল্প</span></div><div class="stat-box"><span class="stat-number">${users.length}</span><span class="stat-label">মোট ইউজার</span></div><div class="stat-box"><span class="stat-number">${users.filter(u=>u.isPremium).length}</span><span class="stat-label">প্রিমিয়াম</span></div><div class="stat-box"><span class="stat-number">${users.filter(u=>u.isPremium).length*5} $</span><span class="stat-label">আয়</span></div></div><div style="background: white; padding: 15px; border-radius: 10px; margin: 20px 0; box-shadow: 0 3px 10px rgba(0,0,0,0.1);"><h3><i class="fas fa-users"></i> ইউজার ম্যানেজমেন্ট</h3><div style="margin-top: 10px;">${users.slice(0,8).map(user=>`<div style="padding: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;"><div><strong>${user.name}</strong><br><small>${user.email}</small></div><div>${user.isPremium?'<span class="tag" style="background: #FFD700;">⭐ প্রিমিয়াম</span>':'<span class="tag">🆓 ফ্রী</span>'}</div></div>`).join('')}</div></div><div style="text-align: center;"><button class="btn-primary" onclick="showPage('home')"><i class="fas fa-home"></i> হোম</button></div>`;
+        }
+        
+        // স্ক্রল
+        function scrollToSection(sectionId) { showPage('home'); setTimeout(() => { const section = document.getElementById(sectionId); if (section) section.scrollIntoView({behavior:'smooth'}); }, 100); }
+        
+        // আরো গল্প
+        function loadMoreStories() { alert('আরো গল্প লোড হবে...'); }
+        
+        // ইনিশিয়ালাইজ
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDemoData();
+            updateAuthLinks();
+            loadStories();
+            const hash = window.location.hash;
+            if (hash) {
+                if (hash === '#login') showPage('login');
+                else if (hash === '#register') showPage('register');
+                else if (hash === '#write') checkUser('write');
+                else if (hash === '#payment') checkUser('payment');
+                else if (hash === '#profile') checkUser('profile');
+                else if (hash === '#admin') showPage('admin');
+                else if (hash.startsWith('#read-')) {
+                    const storyId = parseInt(hash.replace('#read-', ''));
+                    if (storyId) viewStory(storyId);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+<!-- =============================================== -->
+<!-- কোড শেষ - উপরের সবটা A-Code তে পেস্ট করুন -->
+<!-- =============================================== -->
